@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>音楽プレイヤー</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <button onclick="selectFolder()">フォルダを選択</button>
+    <button onclick="playPrevious()">前の曲を再生</button>
+    <button onclick="playNext()">次の曲を再生</button>
+
+    <ul id="playlist"></ul>
+
+    <audio id="audioPlayer" controls></audio>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

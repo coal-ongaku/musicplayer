@@ -15,8 +15,13 @@ async function selectFolder() {
   const sortedEntries = [];
 
   for await (const entry of folderHandle.values()) {
-    if (entry.kind === "file" && !entry.name.startsWith("._")) {
-      if (musicExts.some((extension) => entry.name.endsWith(extension))) {
+    if (entry.kind === "file") {
+      if (
+        musicExts.some(
+          (extension) =>
+            entry.name.endsWith(extension) && !entry.name.startsWith("._")
+        )
+      ) {
         sortedEntries.push(entry);
       }
       if (entry.name.startsWith("albumart")) {

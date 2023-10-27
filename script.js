@@ -15,7 +15,7 @@ async function selectFolder() {
   const sortedEntries = [];
 
   for await (const entry of folderHandle.values()) {
-    if (entry.kind === "file") {
+    if (entry.kind === "file" && !entry.name.startsWith("._")) {
       if (musicExts.some((extension) => entry.name.endsWith(extension))) {
         sortedEntries.push(entry);
       }

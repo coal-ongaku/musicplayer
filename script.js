@@ -198,5 +198,5 @@ function setInnerHTMLById(id, value) {
 
 function zeroPadIndex(index, str) {
   const oneBased = parseInt(index) + 1;
-  return String(oneBased).padStart(2, "0") + " - " + str;
+  return String(oneBased).padStart(2, "0") + "　" + str;
 }

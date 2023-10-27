@@ -1,0 +1,18 @@
+{
+	"album":{
+		"title":"アルバム名",
+		"artist":"アルバムアーティスト"
+	},
+	"songs":[
+		{
+			"title":"1曲目のタイトル",
+			"artist":"曲のアーティスト",
+			"discription":"説明"
+		},
+		{
+			"title":"2曲目のタイトル",
+			"artist":"曲のアーティスト",
+			"discription":"説明"
+		}
+	]
+}

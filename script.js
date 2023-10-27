@@ -1,6 +1,7 @@
 const musicExts = [".mp3", ".wav", ".flac"];
 let playlistItems = [];
-let imgEntity;
+let imgEntity = null;
+var jsonData = null;
 currentIndex = 0;
 isPlaying = false;
 
@@ -15,20 +16,32 @@ async function selectFolder() {
 
   for await (const entry of folderHandle.values()) {
     if (entry.kind === "file") {
+      console.log("entry", entry);
       if (musicExts.some((extension) => entry.name.endsWith(extension))) {
         sortedEntries.push(entry);
       }
-      if (entry.name.startsWith("albumArt")) {
-        imgEntry = entry;
+      if (entry.name.startsWith("albumart")) {
+        imgEntity = entry;
+      }
+      if (entry.name === "info.json") {
+        const file = await entry.getFile();
+        const content = await file.text();
+        jsonData = JSON.parse(content);
       }
     }
   }
 
+  if (jsonData) {
+    setInnerHTMLById("album-title", jsonData.album.title);
+    setInnerHTMLById("album-artist", jsonData.album.artist);
+  }
+
   sortedEntries.sort((a, b) => a.name.localeCompare(b.name));
 
-  for (const entry of sortedEntries) {
+  for (const [index, entry] of Object.entries(sortedEntries)) {
     const listItem = document.createElement("li");
-    listItem.textContent = entry.name;
+    listItem.textContent =
+      zeroPadIndex(index, jsonData.songs[index].title) || entry.name;
     listItem.addEventListener("click", () => playMusic(entry));
     playlist.appendChild(listItem);
 
@@ -37,14 +50,29 @@ async function selectFolder() {
       element: listItem,
     });
   }
+  if (imgEntity === null) {
+    document.getElementById("albumart").src = "notfound.png";
+  } else {
+    document.getElementById("albumart").src = URL.createObjectURL(
+      await imgEntity.getFile()
+    );
+  }
 
   if (playlistItems.length > 0) {
     playMusic(playlistItems[currentIndex].fileHandle);
     const audio = document.getElementById("audio");
     audio.addEventListener("ended", playNext);
-    audio.addEventListener("timeupdate", setTimer);
+    audio.addEventListener("timeupdate", onTimeUpdate);
+    audio.addEventListener("play", () => {
+      isPlaying = true;
+    });
+    audio.addEventListener("pause", () => {
+      isPlaying = false;
+    });
     var slider = document.getElementById("seek");
     slider.addEventListener("input", seeking);
+    var vol = document.getElementById("volume");
+    vol.addEventListener("input", changeVolume);
   }
 }
 
@@ -61,7 +89,6 @@ async function playMusic(fileHandle) {
 
   const file = await fileHandle.getFile();
   audio.src = URL.createObjectURL(file);
-  isPlaying = true;
   audio.play();
 }
 
@@ -99,7 +126,7 @@ function timerFormatString(second) {
   }${seconds}`;
 }
 
-function setTimer() {
+function onTimeUpdate() {
   var slider = document.getElementById("seek");
   var currentTime = audio.currentTime;
   var duration = audio.duration;
@@ -108,6 +135,16 @@ function setTimer() {
   )} / ${timerFormatString(duration)}`;
   var progress = (currentTime / duration) * 2000;
   slider.value = progress;
+  if (jsonData) {
+    setInnerHTMLById("album-title", jsonData.album.title);
+    setInnerHTMLById("album-artist", jsonData.album.artist);
+    setInnerHTMLById("song-artist", jsonData.songs[currentIndex].artist);
+    document.getElementById("song-desctiption").innerHTML = "";
+    setInnerHTMLById(
+      "song-desctiption",
+      jsonData.songs[currentIndex].desctiption
+    );
+  }
 }
 
 function pauseOrPlay() {
@@ -117,16 +154,50 @@ function pauseOrPlay() {
     selectFolder();
     return;
   }
+  var btn = document.getElementById("play-pause-button");
   if (isPlaying) {
     audio.pause();
-    isPlaying = false;
+    btn.src = "pause.png";
   } else {
     audio.play();
-    isPlaying = true;
+    btn.src = "play.png";
   }
+}
+function clipNumber(n, min, max) {
+  if (isNaN(n)) return false;
+  result = n < min ? min : n > max ? max : n;
+  return result;
 }
 function seeking() {
   var audio = document.getElementById("audio");
   var value = document.getElementById("seek").value;
+  value = clipNumber(value, 0, 1995);
   audio.currentTime = (value / 2000) * audio.duration;
+}
+function changeVolume() {
+  var audio = document.getElementById("audio");
+  var vol = document.getElementById("volume");
+  audio.volume = vol.value / 100;
+}
+function mute() {
+  var audio = document.getElementById("audio");
+  var vol = document.getElementById("volume");
+  var btn = document.getElementById("volume-button");
+  audio.muted = !audio.muted;
+  if (audio.muted) {
+    btn.src = "mute.png";
+  } else {
+    btn.src = "volume.png";
+  }
+}
+
+function setInnerHTMLById(id, value) {
+  if (value) {
+    document.getElementById(id).innerHTML = value.replace(/\n/g, "<br>");
+  }
+}
+
+function zeroPadIndex(index, str) {
+  const oneBased = parseInt(index) + 1;
+  return String(oneBased).padStart(2, "0") + " - " + str;
 }

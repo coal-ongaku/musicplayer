@@ -7,17 +7,71 @@ body {
   background-color: #edeff1;
   color: #303f43;
 }
+ul {
+  list-style-type: none; /* li要素のマーカー（点）を非表示にする */
+}
+
+li {
+  transition: background-color 0.3s ease;
+  padding: 3px 0;
+}
+
+li:hover {
+  background-color: #aedcff;
+}
+
 .playing {
   font-weight: 500;
   color: deepskyblue;
 }
-
+.main-container {
+  padding: 20px;
+  display: flex;
+  width: 100%;
+}
+.left-container,
+.right-container {
+  display: flex;
+  float: left;
+  flex-direction: column;
+  width: 100%;
+}
+.song-discriptions {
+  padding: 10px;
+}
+#song-artist {
+  font-weight: 500;
+  padding: 10px 0;
+  font-size: 20px;
+}
+#albumart {
+  padding: 10px;
+  height: 35vh;
+  width: auto;
+  float: left;
+}
+.album-container {
+  display: flex;
+  float: left;
+  width: 100%;
+}
+.album-discription {
+  margin: 10px;
+}
+.playlist-title {
+  font-size: 20px;
+  font-weight: 500;
+}
 #playlist {
   font-size: 20px;
+  width: 100%;
+  margin: 0;
+  padding: 0 20px;
 }
 .timer_bar {
   display: flex;
   align-items: center;
+  padding: 0 10px;
 }
 .progress-bar {
   position: relative;
@@ -48,7 +102,6 @@ body {
 }
 
 #seek {
-  -webkit-appearance: none;
   height: 30px;
   box-sizing: border-box;
   position: absolute;
@@ -104,6 +157,10 @@ body {
 .left-aligned {
   margin-right: auto;
 }
+.right-aligned {
+  display: flex;
+  margin-left: auto;
+}
 
 .center-aligned {
   width: 100%;
@@ -138,4 +195,46 @@ body {
   position: fixed;
   width: 100%;
   bottom: 10px;
+}
+#volume-button {
+  width: 30px;
+  height: 30px;
+  border: none;
+  padding: 0px 3px;
+  float: left;
+}
+#volume {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 10px;
+  width: 100px;
+  margin-right: 50px;
+  cursor: pointer;
+  background: #8acdff;
+  border-radius: 3px;
+}
+#volume:focus {
+  box-shadow: 0 0 3px rgb(0, 161, 255);
+}
+#volume::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  background: #53aeff;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.15);
+}
+#volume::-moz-range-thumb {
+  background: #53aeff;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.15);
+  border: none;
+}
+#volume::-moz-focus-outer {
+  border: 0;
+}
+#volume:active::-webkit-slider-thumb {
+  box-shadow: 0px 5px 10px -2px rgba(0, 0, 0, 0.3);
 }

@@ -39,8 +39,10 @@ async function selectFolder() {
 
   for (const [index, entry] of Object.entries(sortedEntries)) {
     const listItem = document.createElement("li");
-    listItem.textContent =
-      zeroPadIndex(index, jsonData.songs[index].title) || entry.name;
+    if (jsonData) {
+      listItem.textContent =
+        zeroPadIndex(index, jsonData.songs[index].title) || entry.name;
+    }
     listItem.addEventListener("click", () => playMusic(entry));
     playlist.appendChild(listItem);
 

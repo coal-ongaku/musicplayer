@@ -16,7 +16,6 @@ async function selectFolder() {
 
   for await (const entry of folderHandle.values()) {
     if (entry.kind === "file") {
-      console.log("entry", entry);
       if (musicExts.some((extension) => entry.name.endsWith(extension))) {
         sortedEntries.push(entry);
       }
@@ -139,10 +138,10 @@ function onTimeUpdate() {
     setInnerHTMLById("album-title", jsonData.album.title);
     setInnerHTMLById("album-artist", jsonData.album.artist);
     setInnerHTMLById("song-artist", jsonData.songs[currentIndex].artist);
-    document.getElementById("song-desctiption").innerHTML = "";
+    document.getElementById("song-description").innerHTML = "";
     setInnerHTMLById(
-      "song-desctiption",
-      jsonData.songs[currentIndex].desctiption
+      "song-description",
+      jsonData.songs[currentIndex].description
     );
   }
 }

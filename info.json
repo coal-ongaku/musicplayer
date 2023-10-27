@@ -7,12 +7,12 @@
 		{
 			"title":"1曲目のタイトル",
 			"artist":"曲のアーティスト",
-			"discription":"説明"
+			"description":"説明"
 		},
 		{
 			"title":"2曲目のタイトル",
 			"artist":"曲のアーティスト",
-			"discription":"説明"
+			"description":"説明"
 		}
 	]
 }

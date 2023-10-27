@@ -35,6 +35,10 @@ async function selectFolder() {
     }
   }
 
+  console.log(sortedEntries);
+  console.log(jsonData);
+  console.log(imgEntity);
+
   if (jsonData) {
     setInnerHTMLById("album-title", jsonData.album.title);
     setInnerHTMLById("album-artist", jsonData.album.artist);

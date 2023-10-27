@@ -1,23 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>音楽プレイヤー</title>
-    <link rel="stylesheet" href="style.css">
-</head>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/modern-css-reset/dist/reset.min.css"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
 
-<body>
-    <button onclick="selectFolder()">フォルダを選択</button>
-    <button onclick="playPrevious()">前の曲を再生</button>
-    <button onclick="playNext()">次の曲を再生</button>
+  <body>
+    <script src="script.js"></script>
 
     <ul id="playlist"></ul>
 
-    <audio id="audioPlayer" controls></audio>
-
-    <script src="script.js"></script>
-</body>
-
+    <audio id="audio"></audio>
+  </body>
+  <div class="bottom">
+    <div class="timer_bar">
+      <div class="progress-bar">
+        <form class="js-slider-form" onsubmit="return false;">
+          <input type="range" id="seek" min="0" max="2000" />
+        </form>
+      </div>
+      <div id="timer">00:00 / 00:00</div>
+    </div>
+    <div class="button-container">
+      <div class="left-aligned">
+        <img
+          onclick="selectFolder()"
+          src="folder.png"
+          id="open-folder-button"
+        />
+      </div>
+      <div class="center-aligned">
+        <img onclick="playPrevious()" id="previous-button" src="prev.png" />
+        <img onclick="pauseOrPlay()" id="play-pause-button" src="play.png" />
+        <img onclick="playNext()" id="next-button" src="next.png" />
+      </div>
+    </div>
+  </div>
 </html>

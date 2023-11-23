@@ -155,6 +155,7 @@ li:hover {
 }
 
 .left-aligned {
+  display: flex;
   margin-right: auto;
 }
 .right-aligned {
@@ -180,6 +181,7 @@ li:hover {
   border: none;
 }
 
+#info-button,
 #previous-button,
 #next-button,
 #open-folder-button {
@@ -187,8 +189,9 @@ li:hover {
   height: 70px;
   border: none;
 }
+
 #open-folder-button {
-  margin-left: 20px;
+  margin: 0 20px;
 }
 
 .bottom {

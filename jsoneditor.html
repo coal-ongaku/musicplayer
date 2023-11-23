@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>MusicPlayerJSONEditor</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+      integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm"
+      crossorigin="anonymous"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/@json-editor/json-editor@latest/dist/jsoneditor.min.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <h1>MusicPlayerJSONEditor</h1>
+      <form>
+        <div class="form-group">
+          <div class="input-group">
+            <div class="custom-file">
+              <input
+                type="file"
+                class="custom-file-input"
+                id="file-input"
+                accept=".json"
+              />
+              <label
+                class="custom-file-label"
+                for="inputFile"
+                data-browse="参照"
+                >ファイルを選択(ここにドロップすることもできます)</label
+              >
+            </div>
+          </div>
+        </div>
+        <hr />
+      </form>
+
+      <div id="editor_holder"></div>
+      <button id="print" class="btn btn-primary">Print</button>
+      <button id="download" class="btn btn-danger">Download</button>
+      <textarea
+        id="output"
+        class="form-control mt-3"
+        rows="10"
+        readonly
+      ></textarea>
+    </div>
+    <footer class="footer">
+      <div class="container m-4">
+        <div class="text-center">
+          <p>
+            ©2023 Coal<br />
+            <a class="btn btn-primary" href="./index.html">Music Player</a>
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      var config = {
+        iconlib: "fontawesome5",
+        use_name_attributes: false,
+        theme: "bootstrap4",
+        disable_edit_json: true,
+        disable_properties: true,
+        schema: {
+          title: "Music Player",
+          type: "object",
+          required: ["album", "songs"],
+          properties: {
+            album: {
+              type: "object",
+              title: "album",
+              properties: {
+                title: {
+                  type: "string",
+                  default: "アルバム名",
+                },
+                artist: {
+                  type: "string",
+                  default: "アルバムアーティスト",
+                },
+              },
+            },
+            songs: {
+              type: "array",
+              title: "songs",
+              uniqueItems: true,
+              items: {
+                type: "object",
+                title: "Song",
+                properties: {
+                  title: {
+                    type: "string",
+                  },
+                  artist: {
+                    type: "string",
+                  },
+                  description: {
+                    type: "string",
+                    format: "textarea",
+                  },
+                },
+              },
+              default: [
+                {
+                  title: "1曲目のタイトル",
+                  artist: "曲のアーティスト",
+                  description: "説明",
+                },
+              ],
+            },
+          },
+        },
+      };
+      const holder = document.querySelector("#editor_holder");
+      var editor = new JSONEditor(holder, config);
+
+      document
+        .querySelector("#file-input")
+        .addEventListener("change", function (event) {
+          const file = event.target.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+              const fileContent = e.target.result;
+              try {
+                const parsedJson = JSON.parse(fileContent);
+                editor.setValue(parsedJson);
+                console.log("Loaded JSON from file:", parsedJson);
+              } catch (error) {
+                alert("Invalid JSON:", error);
+              }
+            };
+            reader.readAsText(file);
+          }
+        });
+
+      document.querySelector("#print").addEventListener("click", function () {
+        const editedData = editor.getValue();
+        document.querySelector("#output").value = JSON.stringify(
+          editedData,
+          null,
+          2
+        );
+      });
+
+      document
+        .querySelector("#download")
+        .addEventListener("click", function () {
+          const editedData = editor.getValue();
+          const jsonDataString = JSON.stringify(editedData, null, 2);
+
+          const blob = new Blob([jsonDataString], { type: "application/json" });
+          const url = URL.createObjectURL(blob);
+
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = "info.json";
+          a.click();
+
+          URL.revokeObjectURL(url);
+        });
+    </script>
+  </body>
+</html>

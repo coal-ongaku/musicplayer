@@ -1,6 +1,13 @@
+---
+layout: default
+title: How to Use
+---
+
 # musicplayer
 
-HTML5 + CSS3 + JavaScript のみで見やすい音楽プレーヤーを作る
+HTML5 + CSS3 + JavaScript のみで作成された音楽プレーヤー
+
+https://coal-ongaku.github.io/musicplayer/index.html
 
 ## how to use
 
@@ -44,3 +51,5 @@ folder
 ```
 
 `\n`は`<br>`タグに変換され改行されるので、長い説明文の場合は`\n`を利用するのがおすすめです。
+
+info.json は、[JSON エディタ](https://coal-ongaku.github.io/musicplayer/jsoneditor.html)で作成することもできます。

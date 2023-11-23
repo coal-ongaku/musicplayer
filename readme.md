@@ -50,6 +50,6 @@ folder
 }
 ```
 
-`\n`は`<br>`タグに変換され改行されるので、長い説明文の場合は`\n`を利用するのがおすすめです。
+`\n`は`<br>`タグに変換され改行されるので、長い説明文の場合は`\n`を利用するのがおすすめ。
 
-info.json は、[JSON エディタ](https://coal-ongaku.github.io/musicplayer/jsoneditor.html)で作成することもできます。
+info.json は、[JSON エディタ](https://coal-ongaku.github.io/musicplayer/jsoneditor.html)で作成することもできる。
